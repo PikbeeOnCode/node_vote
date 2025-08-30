@@ -1,0 +1,44 @@
+gonna make a voting application 
+
+soo what next ????
+
+a application  where user can give vote to the set of candidates 
+
+models?
+routes ?
+
+voting app functionality ?????? what are theyyyy ??
+
+1. where user can login/sign up
+2. see the  list of candidate ....
+3.  a user can only vote one candidate ,after that,user can't vote another candidate 
+4.there is a route which shows the list of candidates and their live voting count sorted by their vote count ;
+5. user data must contain there unique id : citizeship card  number 
+6. there shld be one admin who can maintain the table of candidates and he can't able to vote at all 
+7. user can change their password 
+8.user can only login with their citizenship card no. and password 
+9. admin can't vote at all 
+
+----------------------------------------------------------------------------------------------------------------------
+
+routes 
+
+user authentication ;
+    /signup: POST  - create an  new user account 
+    /login: POST -login in a existing account [aadhar card + password ]
+
+voting:
+    /candidates: GET - get the list of candidates 
+    /vote/:candidateId: post- vote for a specific candidate
+
+vote counts:
+    /vote/counts: get - GET THE  list of candidates sorted by their vote counts
+
+user Profile :
+    /  profile : get -  get the user profile information 
+    /profile/password : put -change the user's password
+
+Admin Dashboard management:
+    /candidates :Post - create  a new candidate 
+    /candidates/:candidateId : put -update an existing  candidate 
+    /candidates/:candidateId : Delete  a existing candidate from the list 
