@@ -1,155 +1,146 @@
-
 # Node Vote
 
-A simple and efficient Node.js application for creating and managing polls.
+A lightweight backend for a voting system built with **Node.js**, **Express**, **MongoDB**, and **JWT authentication**.
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://example.com/build)
-[![Coverage Status](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)](https://example.com/coverage)
-[![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://example.com/dependencies)
+---
 
-## Table of Contents
+## 📌 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+- [Overview](#overview)  
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Setup & Installation](#setup--installation)  
+- [Usage](#usage)  
+- [API Endpoints](#api-endpoints)  
+- [Configuration](#configuration)  
+- [Project Structure](#project-structure)  
+- [Future Improvements](#future-improvements)  
+- [Contributing](#contributing)  
 - [License](#license)
-- [Contact](#contact)
 
-## Overview
+---
 
-Node Vote is a lightweight Node.js application designed to facilitate the creation and management of online polls. It provides a straightforward and user-friendly interface for setting up polls, collecting votes, and viewing results in real-time. Ideal for small to medium-sized surveys, internal team votes, or quick feedback gathering.
+## 📖 Overview
 
-> Provide a more detailed explanation of the project's purpose and target audience here. Include the benefits of using Node Vote compared to other polling solutions. For example, emphasize its ease of use, real-time results, or specific integrations it offers.
+**Node Vote** is a simple REST API application that allows users to register, log in, and vote for candidates in an authenticated environment.  
 
-## Features
+This project is a great starting point for understanding how authentication, database integration, and protected routes work in a real-world backend system.
 
-*   **Easy Poll Creation:** Create polls with multiple options quickly.
-*   **Real-time Results:** View vote counts and statistics as they come in.
-*   **User-Friendly Interface:** Simple and intuitive web interface for all users.
-*   **RESTful API:** Programmatic access to poll data for integration with other applications.
-*   **Configurable:** Customize the application using environment variables or a configuration file.
+---
 
-> Add more features specific to your application, highlighting key functionalities and benefits.
+## ✨ Features
 
-## Quick Start
+- 🔑 **User Authentication** with JWT  
+- 🗳️ **Vote Casting** (one user can vote once per candidate)  
+- 👤 **Candidate Lookup** via ID  
+- 🔒 **Protected Routes** (only logged-in users can vote)  
+- ⚡ Built with **Express.js** for routing and middleware  
+- 🗄️ **MongoDB** integration via Mongoose  
 
-Get up and running with Node Vote in minutes!
+---
 
-1.  **Prerequisites:** Ensure you have Node.js and npm (Node Package Manager) installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
+## 🛠 Tech Stack
 
-2.  **Clone the repository:**
+| Component       | Technology            |
+|-----------------|------------------------|
+| Server          | Node.js with Express   |
+| Database        | MongoDB (Mongoose)     |
+| Authentication  | JWT                    |
+| Config          | Environment Variables  |
 
-    bash
-    npm start
-        *   Navigate to the application in your browser.
-    *   Click on "Create Poll."
-    *   Enter the poll title, options, and any other relevant details.
-    *   Submit the form to create the poll.
+---
 
-7.  **Voting:**
+## 🚀 Setup & Installation
 
-    *   Share the poll link with participants.
-    *   Participants can select their preferred option and submit their vote.
-
-8.  **Viewing Results:**
-
-    *   Access the poll results page to view real-time vote counts and statistics.
-
-> Include screenshots or GIFs demonstrating the usage of the application. Provide examples of different poll configurations and voting scenarios. Consider using a tool like `asciinema` to create interactive terminal recordings.
-
-## Installation
-
-To install Node Vote, ensure you have Node.js and npm (Node Package Manager) installed on your system.
-
-1.  Clone the repository:
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/PikbeeOnCode/node_vote.git
+   cd node_vote
+Install dependencies:
 
 bash
-    npm start
-    3.  Follow the on-screen instructions to create, manage, and participate in polls.
+Copy code
+npm install
+Create a .env file in the root:
 
-> Provide detailed instructions on how to use the application, including screenshots and examples. Explain the different features and functionalities available to users.
+env
+Copy code
+PORT=3000
+DATABASE_URL=<your_mongo_connection_string>
+JWT_SECRET=<your_jwt_secret>
+Start the server:
 
-## API Documentation
+bash
+Copy code
+npm start
+or for development with auto-reload:
 
-Node Vote provides a RESTful API for programmatic access to poll data.
+bash
+Copy code
+npm run dev
+📡 Usage
+Register/Login to get a JWT token.
 
-### Endpoints
+Use the token in the Authorization header to access protected routes.
 
-*   **`POST /polls`**: Create a new poll.
+Example:
 
-    **Request Body:**
+http
+Copy code
+POST /vote/:candidateId
+Authorization: Bearer <your_token>
+📑 API Endpoints
+Endpoint	Method	Description	Auth Required
+/users/register	POST	Register a new user	No
+/users/login	POST	User login → returns JWT token	No
+/vote/:candidateId	POST	Cast a vote for a candidate	Yes
+/candidates/:candidateId	GET	Get candidate details	No
 
-    json
-    {
-      "id": "unique-poll-id",
-      "title": "Favorite Programming Language",
-      "options": ["JavaScript", "JavaScript", "Python", "Java"]
-    }
-        **Request Body:**
+⚙️ Configuration
+Environment variables required:
 
-    json
-    {
-      "pollId": "unique-poll-id",
-      "option": "JavaScript",
-      "voteCount": 1
-    }
-    > Add more detailed API documentation, including request headers, authentication requirements, and error codes. Use a tool like Swagger or OpenAPI to generate interactive documentation. Consider using a tool like Postman to provide example API requests.
+PORT → App running port (default: 3000)
 
-## Configuration
+DATABASE_URL → MongoDB connection string
 
-Node Vote can be configured using environment variables or a configuration file.
+JWT_SECRET → Secret key for signing tokens
 
-*   `PORT`: The port on which the application will run (default: 3000).
-*   `DATABASE_URL`: The URL of the database to use (e.g., MongoDB, PostgreSQL).
-*   `NODE_ENV`: The environment in which the application is running (e.g., `development`, `production`).
+📂 Project Structure
+pgsql
+Copy code
+node_vote/
+├── models/          → Mongoose schemas (User, Candidate, Vote)
+├── routes/          → Express routes (auth, vote, candidates)
+├── db.js            → Database connection logic
+├── jwt.js           → JWT authentication middleware
+├── server.js        → Main app entry
+├── planning.txt     → Notes and planning
+└── README.md        → Project documentation
+🔮 Future Improvements
+Add vote history and poll creation
 
-> Provide instructions on how to set environment variables and create a configuration file (e.g., `.env` file). Include examples of different database configurations and other configurable options.
+Rebuild using SQL (PostgreSQL/MySQL) for relational DB practice
 
-## Troubleshooting
+Add real-time voting results
 
-*   **Application fails to start:**
+Switch to TypeScript for type safety
 
-    *   Ensure that all required dependencies are installed by running `npm install`.
-    *   Check the console for error messages for clues about the issue.
-    *   Verify that the database connection is configured correctly by checking the `DATABASE_URL` environment variable.
+Deploy to Heroku, Vercel, or Railway
 
-*   **Unable to create polls:**
+🤝 Contributing
+Contributions are welcome!
 
-    *   Check the server logs for any errors related to poll creation.
-    *   Ensure that the API endpoints are accessible and that the server is running.
-    *   Verify that the database is running and accessible.
+Open an issue to suggest new features or report bugs.
 
-*   **Votes are not being recorded:**
+Fork the repo, make changes, and submit a pull request.
 
-    *   Check the server logs for any errors related to vote submission.
-    *   Ensure that the API endpoint for submitting votes is working correctly.
-    *   Verify that the database is being updated correctly.
+📜 License
+Licensed under the MIT License.
 
-> Expand this section with common issues and their solutions. Include steps for debugging and logging, such as enabling debug logging or using a debugging tool. Consider adding a section on frequently asked questions (FAQs).
+yaml
+Copy code
 
-## Contributing
+---
 
-Contributions are welcome! Please follow these guidelines:
-
-1.  Fork the repository.
-2.  Create a new branch for your feature or bug fix: `git checkout -b feature/your-feature-name`.
-3.  Write tests for your code.
-4.  Ensure that your code follows the project's coding style.
-5.  Submit a pull request with a clear description of your changes.
-
-> Add specific contribution guidelines, including coding style (e.g., using ESLint or Prettier), testing procedures (e.g., using Jest or Mocha), and code review process. Provide a link to a CONTRIBUTING.md file if you have a more extensive guide.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-> Your Name - [your.email@example.com](mailto:your.email@example.com)
-
+👉 Just drop this into your repo as `README.md`.  
+Do you want me to also generate a **MIT LICENSE file** so it matches the README?
