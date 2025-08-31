@@ -1,4 +1,6 @@
 # Node Vote
+![Node.js](https://img.shields.io/badge/node-%3E%3D16-green) 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 A lightweight backend for a voting system built with **Node.js**, **Express**, **MongoDB**, and **JWT authentication**.
 
